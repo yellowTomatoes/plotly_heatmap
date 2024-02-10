@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<head>
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset='utf-8'>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" </script>
+  <script src='./mandelbrot.js'></script>
+  <style>
+  
+    .hidden{
+	  display: none;
+	}
+	.show{
+	  display: block;
+	}
+	body{
+	  background-color: rgb(69,69,69);
+	}
+	#controls{
+	  padding: 8px;
+	}
+	#button{
+	  transform: translateX(128px);
+	  background-image: url("./button.png");
+	  display: block;
+	  width: 136px;
+	  height: 103px;
+	  background-size: fill;
+	}
+	#testScreen{
+	  transform: translateX(64px);
+	  background-color: rgb(255,255,255);
+	  border-style: solid;
+	  border-color: rgb(0,0,0);
+	  width: 600px;
+	  height: 250px;
+	}
+	#test{
+	  width: 600px;
+	  height: 250px;
+	}
+  
+  </style>
+</head>
+<body>
+  <div id='controls'>
+    <div id='button' onClick='show()' style = 'background-position: 0px 0px;'></div>
+  </div>
+  <div id ='testScreen'>
+    <div id='test' style='display: none;'></div>
+  </div>
+<script>
+
+  var w = 600;
+  var h = 800;
+	var _x = new Array(w*h);
+	var _y = new Array(w*h);
+	var _z = new Array(w*h);
+    //import mandelbrot from './mandelbrot.json' assert {type: json};
+	//var mandelbrotSet = JSON.parse(mandelbrot);
+	//var range = Math.random()*700000;
+	//console.log(range);
+	  for (i = 180; i<w*h;i++){
+	     _x[i] = mandelbrot[i].x;
+	     _y[i] = mandelbrot[i].y;
+	     _z[i] = mandelbrot[i].z;
+		 
+		 //x[i] = 1;
+		 //_y[i] = 200;
+		 //_z[i] = 400;
+		 //console.log(mandelbrot[i]);
+		 //console.log(i);
+	   }
+	var data = [
+	  {
+	    x: _x,
+		y: _y,
+		z: _z,
+		
+		type: 'heatmap'
+      }
+	];
+	Plotly.newPlot('test', data, {margin: {t:15, b:20}});
+	
+	function show(){
+	  document.getElementById('button').style.setProperty('background-position','136px 0px');
+	  document.getElementById('test').style.setProperty('display','block');
+	  document.getElementById('test').style.setProperty('width', '600px');
+	  document.getElementById('test').style.setProperty('height', '250px');
+	}
+	
+</script>
+</body>
