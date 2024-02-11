@@ -5,6 +5,13 @@
   <script src='./mandelbrot.js'>//import the data</script>
   <script src='./pallete.js'></script>
   <style>
+    #face{
+	  background-image: url('faces.png');
+	  width: 171px;
+	  height: 104px;
+	  transform: scale(1.6);
+	  transform: translate(200px,100px) scale(1.3,1.3);
+	}
 	body{
 	  background-color: rgb(69,69,69);
 	}
@@ -71,6 +78,7 @@
 </head>
 <body>
   <div id ='testScreen' class='screen'>
+    <div id='face'></div>
     <div id='test' style='display: none;'></div>
   </div>
   <div id='controls'>
@@ -86,6 +94,12 @@
 	  </div>
   </div>
 <script>
+  var face = parseInt((Math.random()*10)+1);
+  console.log(face);
+  face = face-7
+  if (face < 0) face=0;
+  console.log(face);
+  document.getElementById('face').style.setProperty('background-position', ''+face*171+'px 0px');
   var p = parseInt(Math.random()*pallete.length);
   document.getElementById('palleteSwap').innerHTML = pallete[p][1];
   var w = 600;
@@ -104,6 +118,7 @@
   }
 
   function show(){
+
       var data = [
 	{
 	  x: _x,
@@ -116,7 +131,7 @@
   ];
   Plotly.newPlot('test', data, {margin: {t:15, b:20}});
 	
-	
+	document.getElementById('face').style.setProperty('display','none');
 	document.getElementById('test').style.setProperty('display','block');
 	document.getElementById('test').style.setProperty('width', '600px');
 	document.getElementById('test').style.setProperty('height', '250px');
