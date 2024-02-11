@@ -3,98 +3,128 @@
   <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset='utf-8'>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src='./mandelbrot.js'>//import the data</script>
+  <script src='./pallete.js'></script>
   <style>
-  
-    .hidden{
-	  display: none;
-	}
-	.show{
-	  display: block;
-	}
 	body{
 	  background-color: rgb(69,69,69);
 	}
 	#controls{
+	  display: inline-block;
 	  padding: 8px;
+	  transform+ translateY(664px);
 	}
-	#button{
+	.button{
 	  transform: translateX(128px);
-	  background-image: url("./button.png");
-	  display: block;
+	  display: inline-block;
 	  width: 136px;
 	  height: 103px;
-	  background-size: fill;
 	}
-	#testScreen{
-	  transform: translateX(64px);
+	#bigButton{
+	  transform: translate(88px, 50px);
+	  background-image: url("./button.png");
+	  background-position: 0px 0px;
+	}
+	#bigButton:active{
+	  background-position: 136px 0px;
+	}
+	.screen{
 	  background-color: rgb(255,255,255);
 	  border-style: solid;
 	  border-color: rgb(0,0,0);
+	}
+	#testScreen{
+	  transform: translateX(64px);
 	  width: 600px;
 	  height: 250px;
+	}
+	#colorScreen{
+	  width: 200px;
+	  height: 64px;
+	  display: flex;
+	  color: rgb(0,0,0);
+	  transform: translate(420px,-250px);
 	}
 	#test{
 	  width: 600px;
 	  height: 250px;
 	}
-  
+	#colorChange{
+	  display:inline;
+	}
+	.controlBTN{
+	  transform: translate(300px,-88px);
+	  display: block;
+	  background-image: url("./control_buttons.png");
+	  width: 108px;
+	  height: 88px;
+	}  
   </style>
 </head>
 <body>
-  <div id='controls'>
-    <div id='button' onClick='show()' style = 'background-position: 0px 0px;'></div>
-  </div>
-  <div id ='testScreen'>
+  <div id ='testScreen' class='screen'>
     <div id='test' style='display: none;'></div>
+  </div>
+  <div id='controls'>
+    <div class='button' id='bigButton' onClick='show()'></div>
+      <div id='colorChange'>
+	    <div class ='button controlBTN' id='upBTN' onClick='clickUp()'></div>
+	    <div class='button controlBTN' id='downBTN' style='background-position: 0px 88px;' onClick='clickDown()')></div>
+		  <div class='screen' id='colorScreen'>
+		    <div id='panelScreen' style='display: inherit;'>
+		      <h3 id='palleteSwap' style='display: inherit; transform: translateX(16px);'>dinky</h3>
+		    </div>
+	     </div>
+	  </div>
   </div>
 <script>
 
   var w = 600;
   var h = 800;
-	var _x = new Array(w*h);
-	var _y = new Array(w*h);
-	var _z = new Array(w*h);
-	
+  var _x = new Array(w*h);
+  var _y = new Array(w*h);
+  var _z = new Array(w*h);
+  var p =pallete.length-1;
     //import mandelbrot from './mandelbrot.json' assert {type: json};
 	//var mandelbrotSet = JSON.parse(mandelbrot);
 	// ^^^^ used js file intead of json because of CORS error
+	  
+  for (i = 180; i<w*h;i++){
+	_x[i] = mandelbrot[i].x;
+	_y[i] = mandelbrot[i].y;
+	_z[i] = mandelbrot[i].z;
+  }
 
-	  for (i = 180; i<w*h;i++){
-	     _x[i] = mandelbrot[i].x;
-	     _y[i] = mandelbrot[i].y;
-	     _z[i] = mandelbrot[i].z;
-	   }
-	var data = [
-	  {
-	    x: _x,
-		y: _y,
-		z: _z,
+  function show(){
+      var data = [
+	{
+	  x: _x,
+	  y: _y,
+	  z: _z,
 		
-		type: 'heatmap',
-		colorscale: [
+	  type: 'heatmap',
+	  colorscale: pallete[p][0]
+	}	
+  ];
+  Plotly.newPlot('test', data, {margin: {t:15, b:20}});
+	
+	
+	document.getElementById('test').style.setProperty('display','block');
+	document.getElementById('test').style.setProperty('width', '600px');
+	document.getElementById('test').style.setProperty('height', '250px');
+	  }
 
-			['0.0', 'rgb(0,30,55)'],
-			['0.111111111111', 'rgb(217,211,118)'],
-			['0.222222222222', 'rgb(255,204,128)'],
-			['0.333333333333', 'rgb(173,230,135)'],
-			['0.444444444444', 'rgb(153,230,192)'],
-			['0.555555555556', 'rgb(43,106,219)'],
-			['0.666666666667', 'rgb(51,70,219)'],
-			['0.777777777778', 'rgb(111, 80, 219)'],
-			['0.888888888889', 'rgb(130,106,219)'],
-			['1.0', 'rgb(204,49,219)']
-		],
-		
-      }
-	];
-	Plotly.newPlot('test', data, {margin: {t:15, b:20}});
-	
-	function show(){
-	  document.getElementById('button').style.setProperty('background-position','136px 0px');
-	  document.getElementById('test').style.setProperty('display','block');
-	  document.getElementById('test').style.setProperty('width', '600px');
-	  document.getElementById('test').style.setProperty('height', '250px');
-	}
-	
+  function clickUp(){
+    if(p+1<pallete.length){
+	  p++;
+	} else p=0;
+	document.getElementById('palleteSwap').innerHTML = pallete[p][1];
+  }
+  function clickDown(){
+	if(p>0){
+	  p--;
+	} else p=pallete.length-1;  
+	document.getElementById('palleteSwap').innerHTML = pallete[p][1];
+  }	
+  
 </script>
 </body>
