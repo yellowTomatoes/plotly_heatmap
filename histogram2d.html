@@ -2,7 +2,7 @@
 <head>
   <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset='utf-8'>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" </script>
-  <script src='./mandelbrot.js'></script>
+  <script src='./mandelbrot.js'>//import the data</script>
   <style>
   
     .hidden{
@@ -54,20 +54,15 @@
 	var _x = new Array(w*h);
 	var _y = new Array(w*h);
 	var _z = new Array(w*h);
+	
     //import mandelbrot from './mandelbrot.json' assert {type: json};
 	//var mandelbrotSet = JSON.parse(mandelbrot);
-	//var range = Math.random()*700000;
-	//console.log(range);
+	// ^^^^ used js file intead of json because of CORS error
+
 	  for (i = 180; i<w*h;i++){
 	     _x[i] = mandelbrot[i].x;
 	     _y[i] = mandelbrot[i].y;
 	     _z[i] = mandelbrot[i].z;
-		 
-		 //x[i] = 1;
-		 //_y[i] = 200;
-		 //_z[i] = 400;
-		 //console.log(mandelbrot[i]);
-		 //console.log(i);
 	   }
 	var data = [
 	  {
