@@ -57,7 +57,16 @@
 	  background-image: url("./control_buttons.png");
 	  width: 108px;
 	  height: 88px;
-	}  
+	}
+	#upBTN:active{
+	  background-position:108px 0px;
+	}
+	#downBTN{
+	  background-position: 0px 88px;
+	}
+	#downBTN:active{
+	  background-position: 108px 88px;
+	}
   </style>
 </head>
 <body>
@@ -68,7 +77,7 @@
     <div class='button' id='bigButton' onClick='show()'></div>
       <div id='colorChange'>
 	    <div class ='button controlBTN' id='upBTN' onClick='clickUp()'></div>
-	    <div class='button controlBTN' id='downBTN' style='background-position: 0px 88px;' onClick='clickDown()')></div>
+	    <div class='button controlBTN' id='downBTN' onClick='clickDown()')></div>
 		  <div class='screen' id='colorScreen'>
 		    <div id='panelScreen' style='display: inherit;'>
 		      <h3 id='palleteSwap' style='display: inherit; transform: translateX(16px);'>dinky</h3>
