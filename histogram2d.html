@@ -80,19 +80,19 @@
 	    <div class='button controlBTN' id='downBTN' onClick='clickDown()')></div>
 		  <div class='screen' id='colorScreen'>
 		    <div id='panelScreen' style='display: inherit;'>
-		      <h3 id='palleteSwap' style='display: inherit; transform: translateX(16px);'>dinky</h3>
+		      <h3 id='palleteSwap' style='display: inherit; transform: translateX(16px);'></h3>
 		    </div>
 	     </div>
 	  </div>
   </div>
 <script>
-
+  var p = parseInt(Math.random()*pallete.length);
+  document.getElementById('palleteSwap').innerHTML = pallete[p][1];
   var w = 600;
   var h = 800;
   var _x = new Array(w*h);
   var _y = new Array(w*h);
   var _z = new Array(w*h);
-  var p =pallete.length-1;
     //import mandelbrot from './mandelbrot.json' assert {type: json};
 	//var mandelbrotSet = JSON.parse(mandelbrot);
 	// ^^^^ used js file intead of json because of CORS error
