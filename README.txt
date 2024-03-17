@@ -5,5 +5,5 @@ TODO:    (x = done,  o = not done)
   x- read graph data fro file
   x- display graph on screen
   o- make a function to read a file from user input for display
-  o- create function for reading and changing graph type from file data
+  x- create function for reading and changing graph type from file data
   
