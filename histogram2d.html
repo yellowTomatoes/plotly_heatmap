@@ -4,13 +4,14 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src='./mandelbrot.js'>//import the data</script>
   <script src='./pallete.js'></script>
+  <script src='./createRibbons.js'></script>
+  <!-- <script src ='./example.js'></script> -->
   <style>
     #face{
 	  background-image: url('faces.png');
 	  width: 171px;
 	  height: 104px;
-	  transform: scale(1.6);
-	  transform: translate(200px,100px) scale(1.3,1.3);
+	  transform: translate(200px,64px) scale(3,2);
 	}
 	body{
 	  background-color: rgb(69,69,69);
@@ -42,10 +43,10 @@
 	#testScreen{
 	  transform: translateX(64px);
 	  width: 600px;
-	  height: 250px;
+	  height: 400px;
 	}
 	#colorScreen{
-	  width: 200px;
+	  width: 220px;
 	  height: 64px;
 	  display: flex;
 	  color: rgb(0,0,0);
@@ -74,6 +75,11 @@
 	#downBTN:active{
 	  background-position: 108px 88px;
 	}
+	.smolTxt{
+	  display: inline;
+	  font-size: 11px;
+	  transform: translate(8px, -6px);
+	}
   </style>
 </head>
 <body>
@@ -101,53 +107,74 @@
   console.log(face);
   document.getElementById('face').style.setProperty('background-position', ''+face*171+'px 0px');
   var p = parseInt(Math.random()*pallete.length);
-  document.getElementById('palleteSwap').innerHTML = pallete[p][1];
-  var w = 600;
-  var h = 800;
-  var _x = new Array(w*h);
-  var _y = new Array(w*h);
-  var _z = new Array(w*h);
-    //import mandelbrot from './mandelbrot.json' assert {type: json};
-	//var mandelbrotSet = JSON.parse(mandelbrot);
-	// ^^^^ used js file intead of json because of CORS error
+  document.getElementById('palleteSwap').innerHTML = pallete[p][1] + "<p class='smolTxt'> (" + pallete[p][2] + ")</p>";
+  
+  function getData(dataSet){
+    if(dataSet[p][3] == "mandelbrot"){
+	  var w = 600;
+      var h = 800;
+	  var _x = new Array(w*h);
+	  var _y = new Array(w*h);
+	  var _z = new Array(w*h);
 	  
-  for (i = 180; i<w*h;i++){
-	_x[i] = mandelbrot[i].x;
-	_y[i] = mandelbrot[i].y;
-	_z[i] = mandelbrot[i].z;
+	  for (i = 180; i<w*h;i++){
+		_x[i] = mandelbrot[i].x;
+		_y[i] = mandelbrot[i].y;
+		_z[i] = mandelbrot[i].z;
+	  }
+	
+	  var data = [
+			{
+			  x: _x,
+			  y: _y,
+			  z: _z,
+				
+			  type: dataSet[p][2],
+			  colorscale: dataSet[p][0]
+			}	
+	  ];
+	  var layout = {margin: {t:15, b:20}};
+	}
+	
+	if(dataSet[p][3] == "ribbon3d"){
+	  var data = getRibbons(dataSet[p][0]);
+	  var layout = {
+	    width: 600,
+		height: 400,
+		scene: {
+		  xaxis: {title: "titleX"},
+		  yaxis: {title: "titleY"},
+		  zaxis: {title: "titleZ"}
+		}
+	  };
+	}
+	
+	return [data,layout];
   }
-
+  
   function show(){
+	var data = getData(pallete);
 
-      var data = [
-	{
-	  x: _x,
-	  y: _y,
-	  z: _z,
-		
-	  type: 'heatmap',
-	  colorscale: pallete[p][0]
-	}	
-  ];
-  Plotly.newPlot('test', data, {margin: {t:15, b:20}});
+	Plotly.newPlot('test', data[0], data[1]);
 	
 	document.getElementById('face').style.setProperty('display','none');
 	document.getElementById('test').style.setProperty('display','block');
 	document.getElementById('test').style.setProperty('width', '600px');
 	document.getElementById('test').style.setProperty('height', '250px');
-	  }
+	
+  }
 
   function clickUp(){
     if(p+1<pallete.length){
 	  p++;
 	} else p=0;
-	document.getElementById('palleteSwap').innerHTML = pallete[p][1];
+	document.getElementById('palleteSwap').innerHTML = pallete[p][1] + "<p class='smolTxt'> (" + pallete[p][2] + ")</p>";
   }
   function clickDown(){
 	if(p>0){
 	  p--;
 	} else p=pallete.length-1;  
-	document.getElementById('palleteSwap').innerHTML = pallete[p][1];
+	document.getElementById('palleteSwap').innerHTML = pallete[p][1] + "<p class='smolTxt'> (" + pallete[p][2] + ")</p>";
   }	
   
 </script>
