@@ -52,17 +52,17 @@ function getRibbons(color){
 	var z3 = [];
 	
 	for(var i=1;i<ibgData.length;i++){
-		y1.push(i);
-		x1.push(ibgData[i][5]);
-		z1.push([1,1]);
+		y1.push(ibgData[i][3]);
+		x1.push([1,1.5]);
+		z1.push([ibgData[i][5],ibgData[i][5]]);
 		
-		y2.push(i);
-		x2.push(ibgData[i][5] * Math.random());
-		z2.push([2,2]);
+		y2.push(ibgData[i][3]);
+		x2.push([2,2.5]);
+		z2.push([ibgData[i][5] * Math.random(),ibgData[i][5] * Math.random()]);
 		
-		y3.push(i);
-		x3.push(ibgData[i][5] * Math.random());
-		z3.push([3,3]);
+		y3.push(ibgData[i][3]);
+		x3.push([3,3.5]);
+		z3.push([ibgData[i][5] * Math.random(),ibgData[i][5] * Math.random()]);
 	}
 	
 	var trace1 = {
